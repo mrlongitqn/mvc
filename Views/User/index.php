@@ -1,0 +1,20 @@
+<html>
+<table>
+    <thead>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Age</th>
+    </thead>
+    <?php
+    foreach ($listUser as $user){
+        ?>
+        <tr>
+            <td><?=$user->id?></td>
+            <td><?=$user->name?></td>
+            <td><?=$user->age?></td>
+        </tr>
+    <?php
+    }
+    ?>
+</table>
+</html>
