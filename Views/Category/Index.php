@@ -7,7 +7,6 @@
     <tr>
         <th>STT</th>
         <th>Tên danh mục</th>
-        <th>Danh mục cha</th>
         <th>Mô tả</th>
         <th>Hành động</th>
     </tr>
@@ -20,10 +19,9 @@
             <td><?= $category[0] ?></td>
             <td><?= $category[1] ?></td>
             <td><?= $category[2] ?></td>
-            <td><?= $category[3] ?></td>
             <td>
-                <a href="index.php?c=Category&a=Update&name=<?= $category[1] ?>&parent=<?= $category[2] ?>&desc=<?= $category[3] ?>">Sửa</a>
-                <a href="index.php?c=Category&a=Delete&name=<?= $category[1] ?>">Xóa</a>
+                <a href="index.php?c=Category&a=Update&id=<?= $category[0] ?>">Sửa</a>
+                <a href="index.php?c=Category&a=Delete&id=<?= $category[0] ?>">Xóa</a>
             </td>
         </tr>
         <?php

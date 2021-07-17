@@ -5,15 +5,12 @@ class CategoryController
     //Hiển thị danh sách danh mục
     function Index()
     {
-        //truy vấn dữ liệu từ database
-        $categories = [
-            [1, 'Truy nã', 'Pháp luật', ''],
-            [2, 'Hình sự', 'Pháp luật', ''],
-            [3, 'Nghi vấn', 'Pháp luật', ''],
-            [4, 'Hài Kịch', 'Giải trí', ''],
-            [5, 'Nghe nhạc', 'Giải trí', ''],
-            [6, 'Hình ảnh', 'Giải trí', ''],
-        ];
+        $mysqli = new mysqli('localhost', 'root', '', 'mvc');
+        $query = "SELECT * FROM categories";
+        $result = $mysqli->query($query);
+        $categories = $result->fetch_all();
+        $result->close();
+        $mysqli->close();
         //Hiển thị lên view
         require_once 'Views/Category/Index.php';
     }
@@ -27,11 +24,16 @@ class CategoryController
     function Save()
     {
         //Nhận và xử lý dữ liệu
-        echo $_POST['name'] . '<br/>';
-        echo $_POST['parent'] . '<br/>';
-        echo $_POST['desc'] . '<br/>';
+        $name = $_POST['name'];
+        $desc = $_POST['desc'];
         //Thêm dữ liệu vào csdl
-        header('Location: index.php?c=Category');
+        $mysqli = new mysqli('localhost', 'root', '', 'mvc');
+        $query = "INSERT INTO categories(`name`, `desc`) VALUES('$name', '$desc')";
+        $result = $mysqli->query($query);
+        $mysqli->close();
+        if($result)
+            header('Location: index.php?c=Category');
+        else echo  'Thêm lỗi';
         exit;
     }
 
@@ -39,12 +41,17 @@ class CategoryController
     function Update()
     {
         //Lấy id được gởi từ client
+        $id = $_GET['id'];
         //truy xuất dữ liệu từ id
-
+        $mysqli = new mysqli('localhost', 'root', '', 'mvc');
+        $query = "SELECT * FROM categories WHERE id=$id";
+        $result = $mysqli->query($query);
+        $category = $result->fetch_row();
+        $result->close();
+        $mysqli->close();
         //Lấy thông tin cần sửa
-        $name = $_GET['name'];
-        $parent = $_GET['parent'];
-        $desc = $_GET['desc'];
+        $name = $category[1];
+        $desc =  $category[2];
         //Hiển thị lên view
         require_once 'Views/Category/Update.php';
     }
@@ -52,23 +59,32 @@ class CategoryController
     function SaveUpdate()
     {
         //Nhận dữ liệu cần sửa
-        echo $_POST['name'] . '<br/>';
-        echo $_POST['parent'] . '<br/>';
-        echo $_POST['desc'] . '<br/>';
-
-        //Sửa và lưu vào CSDL
-        header('Location: index.php?c=Category');
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $desc = $_POST['desc'];
+        //mở kết nối
+        $mysqli = new mysqli('localhost', 'root', '', 'mvc');
+        //query update
+        $query = "UPDATE categories SET `name`='$name', `desc`='$desc' WHERE id=$id";
+        $result = $mysqli->query($query);
+        $mysqli->close();
+        if($result)
+            header('Location: index.php?c=Category');
+        else echo  'Cập nhật lỗi';
         exit;
     }
 
     function Delete()
     {
-        $name = $_GET['name'];
-        //Thực hiện việc xóa theo giá trị gởi lên
-        //Quay lại danh sách
-        header('Location: index.php?c=Category');
-        //echo "Dữ liệu cần xóa là $name";
+        $id = $_GET['id'];
+        //mở kết nối
+        $mysqli = new mysqli('localhost', 'root', '', 'mvc');
+        //query update
+        $query = "DELETE FROM categories WHERE id=$id";
+        $result = $mysqli->query($query);
+        $mysqli->close();
+        if($result)
+            header('Location: index.php?c=Category');
+        else echo  'Xóa lỗi';
     }
-
-    //Xóa danh mục
 }

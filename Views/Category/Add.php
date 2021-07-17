@@ -10,7 +10,6 @@
 <!--    <input type="hidden" name="c" value="Category">-->
 <!--    <input type="hidden" name="a" value="Save">-->
     <p>Tên danh mục: <input type="text" name="name"/></p>
-    <p>Tên danh mục cha: <input type="text" name="parent"/></p>
     <p>Mô tả: <input type="text" name="desc"/></p>
     <p>
         <input type="submit" value="Lưu lại">
